@@ -32,27 +32,30 @@ while True:
         need = int(amount) // i
         rest = int(amount) % i
         if bills[i] >= need:
-            b = need
+            bill = need
         else:
-            b = bills[i]
+            bill = bills[i]
             rest = rest + (need - bills[i]) * i
-        bills[i] = bills[i] - b
+        bills[i] = bills[i] - bill
         amount = rest
-        if b != 0:
-            print(f"{b} bill(s) of ${i}.00")
+        if bill != 0:
+            print(f"{bill} bill(s) of ${i}.00")
 
     print("\nLeft in ATM machine:")
     for i in bills.keys():
-        print(f"{bills[i]} bill(s) of ${i}.00")
+        if bills[i] != 0:
+            print(f"{bills[i]} bill(s) of ${i}.00")
 
     possible_wd = sum([k * v for k, v in bills.items()])
 
-    q = input("\nWould you like to make a new withdraw? (y/n) ")
-    while q.lower() != 'y' and q.lower() != 'n':
-        q = input("\nPlease type 'y' or 'n': ")
+    if possible_wd > 0:
+        q = input("\nWould you like to make a new withdraw? (y/n) ")
+        while q.lower() != 'y' and q.lower() != 'n':
+            q = input("\nPlease type 'y' or 'n': ")
 
     if q.lower() == 'n' or possible_wd == 0:
-        print(f"\n{len(withdraws)} withdraws were made with an average amount of "
+        print("\nSUMMARY")
+        print(f"{len(withdraws)} withdraws were made with an average amount of "
               f"${(sum(withdraws) / len(withdraws)):.2f} each")
         print(f"A total amount of ${possible_wd:.2f} is left in machine")
         break
